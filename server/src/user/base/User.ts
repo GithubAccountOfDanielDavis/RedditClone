@@ -11,13 +11,24 @@ https://docs.amplication.com/docs/how-to/custom-code
   */
 import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { Comment } from "../../comment/base/Comment";
+import { CommentLike } from "../../commentLike/base/CommentLike";
 import { ValidateNested, IsOptional, IsDate, IsString } from "class-validator";
 import { Type } from "class-transformer";
+import { Comment } from "../../comment/base/Comment";
 import { Community } from "../../community/base/Community";
+import { PostLike } from "../../postLike/base/PostLike";
 import { Post } from "../../post/base/Post";
 @ObjectType()
 class User {
+  @ApiProperty({
+    required: false,
+    type: () => [CommentLike],
+  })
+  @ValidateNested()
+  @Type(() => CommentLike)
+  @IsOptional()
+  commentLikes?: Array<CommentLike>;
+
   @ApiProperty({
     required: false,
     type: () => [Comment],
@@ -60,6 +71,15 @@ class User {
   @Type(() => Community)
   @IsOptional()
   ownedCommunities?: Array<Community>;
+
+  @ApiProperty({
+    required: false,
+    type: () => [PostLike],
+  })
+  @ValidateNested()
+  @Type(() => PostLike)
+  @IsOptional()
+  postLikes?: Array<PostLike>;
 
   @ApiProperty({
     required: false,

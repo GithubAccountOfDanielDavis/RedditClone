@@ -21,6 +21,14 @@ import { CommentList } from "./comment/CommentList";
 import { CommentCreate } from "./comment/CommentCreate";
 import { CommentEdit } from "./comment/CommentEdit";
 import { CommentShow } from "./comment/CommentShow";
+import { CommentLikeList } from "./commentLike/CommentLikeList";
+import { CommentLikeCreate } from "./commentLike/CommentLikeCreate";
+import { CommentLikeEdit } from "./commentLike/CommentLikeEdit";
+import { CommentLikeShow } from "./commentLike/CommentLikeShow";
+import { PostLikeList } from "./postLike/PostLikeList";
+import { PostLikeCreate } from "./postLike/PostLikeCreate";
+import { PostLikeEdit } from "./postLike/PostLikeEdit";
+import { PostLikeShow } from "./postLike/PostLikeShow";
 import { jwtAuthProvider } from "./auth-provider/ra-auth-jwt";
 
 const App = (): React.ReactElement => {
@@ -74,6 +82,20 @@ const App = (): React.ReactElement => {
           edit={CommentEdit}
           create={CommentCreate}
           show={CommentShow}
+        />
+        <Resource
+          name="CommentLike"
+          list={CommentLikeList}
+          edit={CommentLikeEdit}
+          create={CommentLikeCreate}
+          show={CommentLikeShow}
+        />
+        <Resource
+          name="PostLike"
+          list={PostLikeList}
+          edit={PostLikeEdit}
+          create={PostLikeCreate}
+          show={PostLikeShow}
         />
       </Admin>
     </div>

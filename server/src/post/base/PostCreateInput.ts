@@ -16,6 +16,7 @@ import { CommentCreateNestedManyWithoutPostsInput } from "./CommentCreateNestedM
 import { Type } from "class-transformer";
 import { CommunityWhereUniqueInput } from "../../community/base/CommunityWhereUniqueInput";
 import { UserWhereUniqueInput } from "../../user/base/UserWhereUniqueInput";
+import { PostLikeCreateNestedManyWithoutPostsInput } from "./PostLikeCreateNestedManyWithoutPostsInput";
 @InputType()
 class PostCreateInput {
   @ApiProperty({
@@ -58,6 +59,18 @@ class PostCreateInput {
   @Type(() => UserWhereUniqueInput)
   @Field(() => UserWhereUniqueInput)
   creator!: UserWhereUniqueInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => PostLikeCreateNestedManyWithoutPostsInput,
+  })
+  @ValidateNested()
+  @Type(() => PostLikeCreateNestedManyWithoutPostsInput)
+  @IsOptional()
+  @Field(() => PostLikeCreateNestedManyWithoutPostsInput, {
+    nullable: true,
+  })
+  postLikes?: PostLikeCreateNestedManyWithoutPostsInput;
 
   @ApiProperty({
     required: true,

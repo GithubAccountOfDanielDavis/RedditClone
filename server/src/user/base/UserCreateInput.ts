@@ -11,13 +11,27 @@ https://docs.amplication.com/docs/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { CommentCreateNestedManyWithoutUsersInput } from "./CommentCreateNestedManyWithoutUsersInput";
+import { CommentLikeCreateNestedManyWithoutUsersInput } from "./CommentLikeCreateNestedManyWithoutUsersInput";
 import { ValidateNested, IsOptional, IsString } from "class-validator";
 import { Type } from "class-transformer";
+import { CommentCreateNestedManyWithoutUsersInput } from "./CommentCreateNestedManyWithoutUsersInput";
 import { CommunityCreateNestedManyWithoutUsersInput } from "./CommunityCreateNestedManyWithoutUsersInput";
+import { PostLikeCreateNestedManyWithoutUsersInput } from "./PostLikeCreateNestedManyWithoutUsersInput";
 import { PostCreateNestedManyWithoutUsersInput } from "./PostCreateNestedManyWithoutUsersInput";
 @InputType()
 class UserCreateInput {
+  @ApiProperty({
+    required: false,
+    type: () => CommentLikeCreateNestedManyWithoutUsersInput,
+  })
+  @ValidateNested()
+  @Type(() => CommentLikeCreateNestedManyWithoutUsersInput)
+  @IsOptional()
+  @Field(() => CommentLikeCreateNestedManyWithoutUsersInput, {
+    nullable: true,
+  })
+  commentLikes?: CommentLikeCreateNestedManyWithoutUsersInput;
+
   @ApiProperty({
     required: false,
     type: () => CommentCreateNestedManyWithoutUsersInput,
@@ -61,6 +75,18 @@ class UserCreateInput {
   @IsString()
   @Field(() => String)
   password!: string;
+
+  @ApiProperty({
+    required: false,
+    type: () => PostLikeCreateNestedManyWithoutUsersInput,
+  })
+  @ValidateNested()
+  @Type(() => PostLikeCreateNestedManyWithoutUsersInput)
+  @IsOptional()
+  @Field(() => PostLikeCreateNestedManyWithoutUsersInput, {
+    nullable: true,
+  })
+  postLikes?: PostLikeCreateNestedManyWithoutUsersInput;
 
   @ApiProperty({
     required: false,

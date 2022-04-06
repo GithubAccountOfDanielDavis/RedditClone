@@ -25,6 +25,8 @@ import { DeleteCommentArgs } from "./DeleteCommentArgs";
 import { CommentFindManyArgs } from "./CommentFindManyArgs";
 import { CommentFindUniqueArgs } from "./CommentFindUniqueArgs";
 import { Comment } from "./Comment";
+import { CommentLikeFindManyArgs } from "../../commentLike/base/CommentLikeFindManyArgs";
+import { CommentLike } from "../../commentLike/base/CommentLike";
 import { User } from "../../user/base/User";
 import { Post } from "../../post/base/Post";
 import { CommentService } from "../comment.service";
@@ -224,6 +226,32 @@ export class CommentResolverBase {
       }
       throw error;
     }
+  }
+
+  @graphql.ResolveField(() => [CommentLike])
+  @nestAccessControl.UseRoles({
+    resource: "Comment",
+    action: "read",
+    possession: "any",
+  })
+  async commentLikes(
+    @graphql.Parent() parent: Comment,
+    @graphql.Args() args: CommentLikeFindManyArgs,
+    @gqlUserRoles.UserRoles() userRoles: string[]
+  ): Promise<CommentLike[]> {
+    const permission = this.rolesBuilder.permission({
+      role: userRoles,
+      action: "read",
+      possession: "any",
+      resource: "CommentLike",
+    });
+    const results = await this.service.findCommentLikes(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results.map((result) => permission.filter(result));
   }
 
   @graphql.ResolveField(() => User, { nullable: true })

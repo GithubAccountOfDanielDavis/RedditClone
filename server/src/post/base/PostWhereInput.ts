@@ -18,6 +18,7 @@ import { CommentListRelationFilter } from "../../comment/base/CommentListRelatio
 import { CommunityWhereUniqueInput } from "../../community/base/CommunityWhereUniqueInput";
 import { UserWhereUniqueInput } from "../../user/base/UserWhereUniqueInput";
 import { StringFilter } from "../../util/StringFilter";
+import { PostLikeListRelationFilter } from "../../postLike/base/PostLikeListRelationFilter";
 @InputType()
 class PostWhereInput {
   @ApiProperty({
@@ -77,6 +78,18 @@ class PostWhereInput {
     nullable: true,
   })
   id?: StringFilter;
+
+  @ApiProperty({
+    required: false,
+    type: () => PostLikeListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => PostLikeListRelationFilter)
+  @IsOptional()
+  @Field(() => PostLikeListRelationFilter, {
+    nullable: true,
+  })
+  postLikes?: PostLikeListRelationFilter;
 
   @ApiProperty({
     required: false,

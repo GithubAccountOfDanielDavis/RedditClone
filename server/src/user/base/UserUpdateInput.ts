@@ -11,13 +11,27 @@ https://docs.amplication.com/docs/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { CommentUpdateManyWithoutUsersInput } from "./CommentUpdateManyWithoutUsersInput";
+import { CommentLikeUpdateManyWithoutUsersInput } from "./CommentLikeUpdateManyWithoutUsersInput";
 import { ValidateNested, IsOptional, IsString } from "class-validator";
 import { Type } from "class-transformer";
+import { CommentUpdateManyWithoutUsersInput } from "./CommentUpdateManyWithoutUsersInput";
 import { CommunityUpdateManyWithoutUsersInput } from "./CommunityUpdateManyWithoutUsersInput";
+import { PostLikeUpdateManyWithoutUsersInput } from "./PostLikeUpdateManyWithoutUsersInput";
 import { PostUpdateManyWithoutUsersInput } from "./PostUpdateManyWithoutUsersInput";
 @InputType()
 class UserUpdateInput {
+  @ApiProperty({
+    required: false,
+    type: () => CommentLikeUpdateManyWithoutUsersInput,
+  })
+  @ValidateNested()
+  @Type(() => CommentLikeUpdateManyWithoutUsersInput)
+  @IsOptional()
+  @Field(() => CommentLikeUpdateManyWithoutUsersInput, {
+    nullable: true,
+  })
+  commentLikes?: CommentLikeUpdateManyWithoutUsersInput;
+
   @ApiProperty({
     required: false,
     type: () => CommentUpdateManyWithoutUsersInput,
@@ -64,6 +78,18 @@ class UserUpdateInput {
     nullable: true,
   })
   password?: string;
+
+  @ApiProperty({
+    required: false,
+    type: () => PostLikeUpdateManyWithoutUsersInput,
+  })
+  @ValidateNested()
+  @Type(() => PostLikeUpdateManyWithoutUsersInput)
+  @IsOptional()
+  @Field(() => PostLikeUpdateManyWithoutUsersInput, {
+    nullable: true,
+  })
+  postLikes?: PostLikeUpdateManyWithoutUsersInput;
 
   @ApiProperty({
     required: false,

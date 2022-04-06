@@ -14,6 +14,7 @@ import {
 import { CommentTitle } from "../comment/CommentTitle";
 import { CommunityTitle } from "../community/CommunityTitle";
 import { UserTitle } from "../user/UserTitle";
+import { PostLikeTitle } from "../postLike/PostLikeTitle";
 
 export const PostCreate = (props: CreateProps): React.ReactElement => {
   return (
@@ -38,6 +39,14 @@ export const PostCreate = (props: CreateProps): React.ReactElement => {
         <ReferenceInput source="user.id" reference="User" label="Creator">
           <SelectInput optionText={UserTitle} />
         </ReferenceInput>
+        <ReferenceArrayInput
+          source="postLikes"
+          reference="PostLike"
+          parse={(value: any) => value && value.map((v: any) => ({ id: v }))}
+          format={(value: any) => value && value.map((v: any) => v.id)}
+        >
+          <SelectArrayInput optionText={PostLikeTitle} />
+        </ReferenceArrayInput>
         <TextInput label="Title" source="title" />
       </SimpleForm>
     </Create>

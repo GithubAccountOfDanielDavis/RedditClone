@@ -25,10 +25,14 @@ import { DeleteUserArgs } from "./DeleteUserArgs";
 import { UserFindManyArgs } from "./UserFindManyArgs";
 import { UserFindUniqueArgs } from "./UserFindUniqueArgs";
 import { User } from "./User";
+import { CommentLikeFindManyArgs } from "../../commentLike/base/CommentLikeFindManyArgs";
+import { CommentLike } from "../../commentLike/base/CommentLike";
 import { CommentFindManyArgs } from "../../comment/base/CommentFindManyArgs";
 import { Comment } from "../../comment/base/Comment";
 import { CommunityFindManyArgs } from "../../community/base/CommunityFindManyArgs";
 import { Community } from "../../community/base/Community";
+import { PostLikeFindManyArgs } from "../../postLike/base/PostLikeFindManyArgs";
+import { PostLike } from "../../postLike/base/PostLike";
 import { PostFindManyArgs } from "../../post/base/PostFindManyArgs";
 import { Post } from "../../post/base/Post";
 import { UserService } from "../user.service";
@@ -208,6 +212,32 @@ export class UserResolverBase {
     }
   }
 
+  @graphql.ResolveField(() => [CommentLike])
+  @nestAccessControl.UseRoles({
+    resource: "User",
+    action: "read",
+    possession: "any",
+  })
+  async commentLikes(
+    @graphql.Parent() parent: User,
+    @graphql.Args() args: CommentLikeFindManyArgs,
+    @gqlUserRoles.UserRoles() userRoles: string[]
+  ): Promise<CommentLike[]> {
+    const permission = this.rolesBuilder.permission({
+      role: userRoles,
+      action: "read",
+      possession: "any",
+      resource: "CommentLike",
+    });
+    const results = await this.service.findCommentLikes(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results.map((result) => permission.filter(result));
+  }
+
   @graphql.ResolveField(() => [Comment])
   @nestAccessControl.UseRoles({
     resource: "User",
@@ -278,6 +308,32 @@ export class UserResolverBase {
       resource: "Community",
     });
     const results = await this.service.findOwnedCommunities(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results.map((result) => permission.filter(result));
+  }
+
+  @graphql.ResolveField(() => [PostLike])
+  @nestAccessControl.UseRoles({
+    resource: "User",
+    action: "read",
+    possession: "any",
+  })
+  async postLikes(
+    @graphql.Parent() parent: User,
+    @graphql.Args() args: PostLikeFindManyArgs,
+    @gqlUserRoles.UserRoles() userRoles: string[]
+  ): Promise<PostLike[]> {
+    const permission = this.rolesBuilder.permission({
+      role: userRoles,
+      action: "read",
+      possession: "any",
+      resource: "PostLike",
+    });
+    const results = await this.service.findPostLikes(parent.id, args);
 
     if (!results) {
       return [];

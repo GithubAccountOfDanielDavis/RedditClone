@@ -16,6 +16,7 @@ import { Comment } from "../../comment/base/Comment";
 import { Type } from "class-transformer";
 import { Community } from "../../community/base/Community";
 import { User } from "../../user/base/User";
+import { PostLike } from "../../postLike/base/PostLike";
 @ObjectType()
 class Post {
   @ApiProperty({
@@ -69,6 +70,15 @@ class Post {
   @IsString()
   @Field(() => String)
   id!: string;
+
+  @ApiProperty({
+    required: false,
+    type: () => [PostLike],
+  })
+  @ValidateNested()
+  @Type(() => PostLike)
+  @IsOptional()
+  postLikes?: Array<PostLike>;
 
   @ApiProperty({
     required: true,

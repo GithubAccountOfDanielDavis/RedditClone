@@ -10,7 +10,7 @@ https://docs.amplication.com/docs/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { PrismaService } from "nestjs-prisma";
-import { Prisma, Comment, User, Post } from "@prisma/client";
+import { Prisma, Comment, CommentLike, User, Post } from "@prisma/client";
 
 export class CommentServiceBase {
   constructor(protected readonly prisma: PrismaService) {}
@@ -45,6 +45,17 @@ export class CommentServiceBase {
     args: Prisma.SelectSubset<T, Prisma.CommentDeleteArgs>
   ): Promise<Comment> {
     return this.prisma.comment.delete(args);
+  }
+
+  async findCommentLikes(
+    parentId: string,
+    args: Prisma.CommentLikeFindManyArgs
+  ): Promise<CommentLike[]> {
+    return this.prisma.comment
+      .findUnique({
+        where: { id: parentId },
+      })
+      .commentLikes(args);
   }
 
   async getCreator(parentId: string): Promise<User | null> {

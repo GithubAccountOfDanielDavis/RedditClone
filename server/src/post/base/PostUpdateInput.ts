@@ -16,6 +16,7 @@ import { CommentUpdateManyWithoutPostsInput } from "./CommentUpdateManyWithoutPo
 import { Type } from "class-transformer";
 import { CommunityWhereUniqueInput } from "../../community/base/CommunityWhereUniqueInput";
 import { UserWhereUniqueInput } from "../../user/base/UserWhereUniqueInput";
+import { PostLikeUpdateManyWithoutPostsInput } from "./PostLikeUpdateManyWithoutPostsInput";
 @InputType()
 class PostUpdateInput {
   @ApiProperty({
@@ -64,6 +65,18 @@ class PostUpdateInput {
     nullable: true,
   })
   creator?: UserWhereUniqueInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => PostLikeUpdateManyWithoutPostsInput,
+  })
+  @ValidateNested()
+  @Type(() => PostLikeUpdateManyWithoutPostsInput)
+  @IsOptional()
+  @Field(() => PostLikeUpdateManyWithoutPostsInput, {
+    nullable: true,
+  })
+  postLikes?: PostLikeUpdateManyWithoutPostsInput;
 
   @ApiProperty({
     required: false,

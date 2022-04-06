@@ -27,6 +27,8 @@ import { PostFindUniqueArgs } from "./PostFindUniqueArgs";
 import { Post } from "./Post";
 import { CommentFindManyArgs } from "../../comment/base/CommentFindManyArgs";
 import { Comment } from "../../comment/base/Comment";
+import { PostLikeFindManyArgs } from "../../postLike/base/PostLikeFindManyArgs";
+import { PostLike } from "../../postLike/base/PostLike";
 import { Community } from "../../community/base/Community";
 import { User } from "../../user/base/User";
 import { PostService } from "../post.service";
@@ -244,6 +246,32 @@ export class PostResolverBase {
       resource: "Comment",
     });
     const results = await this.service.findComments(parent.id, args);
+
+    if (!results) {
+      return [];
+    }
+
+    return results.map((result) => permission.filter(result));
+  }
+
+  @graphql.ResolveField(() => [PostLike])
+  @nestAccessControl.UseRoles({
+    resource: "Post",
+    action: "read",
+    possession: "any",
+  })
+  async postLikes(
+    @graphql.Parent() parent: Post,
+    @graphql.Args() args: PostLikeFindManyArgs,
+    @gqlUserRoles.UserRoles() userRoles: string[]
+  ): Promise<PostLike[]> {
+    const permission = this.rolesBuilder.permission({
+      role: userRoles,
+      action: "read",
+      possession: "any",
+      resource: "PostLike",
+    });
+    const results = await this.service.findPostLikes(parent.id, args);
 
     if (!results) {
       return [];
