@@ -1,0 +1,57 @@
+datasource postgres {
+  provider = "postgresql"
+  url      = env("POSTGRESQL_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  comments         Comment[]
+  createdAt        DateTime    @default(now())
+  id               String      @id @default(cuid())
+  moderates        Community[] @relation(name: "moderates")
+  ownedCommunities Community[] @relation(name: "ownedCommunities")
+  password         String
+  posts            Post[]
+  roles            String[]
+  subscriptions    Community[] @relation(name: "subscribers")
+  updatedAt        DateTime    @updatedAt
+  username         String      @unique
+}
+
+model Community {
+  createdAt   DateTime @default(now())
+  id          String   @id @default(cuid())
+  moderators  User[]   @relation(name: "moderates")
+  name        String   @unique
+  owner       User     @relation(name: "ownedCommunities", fields: [ownerId], references: [id])
+  ownerId     String
+  posts       Post[]
+  subscribers User[]   @relation(name: "subscribers")
+  updatedAt   DateTime @updatedAt
+}
+
+model Post {
+  comments    Comment[]
+  community   Community @relation(fields: [communityId], references: [id])
+  communityId String
+  createdAt   DateTime  @default(now())
+  creator     User      @relation(fields: [creatorId], references: [id])
+  creatorId   String
+  id          String    @id @default(cuid())
+  title       String
+  updatedAt   DateTime  @updatedAt
+}
+
+model Comment {
+  body      String
+  createdAt DateTime @default(now())
+  creator   User     @relation(fields: [creatorId], references: [id])
+  creatorId String
+  id        String   @id @default(cuid())
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    String
+  updatedAt DateTime @updatedAt
+}
