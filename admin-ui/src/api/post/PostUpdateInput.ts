@@ -3,6 +3,7 @@ import { CommunityWhereUniqueInput } from "../community/CommunityWhereUniqueInpu
 import { UserWhereUniqueInput } from "../user/UserWhereUniqueInput";
 
 export type PostUpdateInput = {
+  body?: string | null;
   comments?: CommentUpdateManyWithoutPostsInput;
   community?: CommunityWhereUniqueInput;
   creator?: UserWhereUniqueInput;

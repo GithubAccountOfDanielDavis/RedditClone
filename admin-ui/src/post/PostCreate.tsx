@@ -4,11 +4,11 @@ import {
   Create,
   SimpleForm,
   CreateProps,
+  TextInput,
   ReferenceArrayInput,
   SelectArrayInput,
   ReferenceInput,
   SelectInput,
-  TextInput,
 } from "react-admin";
 
 import { CommentTitle } from "../comment/CommentTitle";
@@ -19,6 +19,7 @@ export const PostCreate = (props: CreateProps): React.ReactElement => {
   return (
     <Create {...props}>
       <SimpleForm>
+        <TextInput label="Body" multiline source="body" />
         <ReferenceArrayInput
           source="comments"
           reference="Comment"

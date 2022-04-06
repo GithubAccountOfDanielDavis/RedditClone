@@ -27,6 +27,7 @@ export const CommunityShow = (props: ShowProps): React.ReactElement => {
         <DateField source="updatedAt" label="Updated At" />
         <ReferenceManyField reference="Post" target="CommunityId" label="Posts">
           <Datagrid rowClick="show">
+            <TextField label="Body" source="body" />
             <ReferenceField
               label="Community"
               source="community.id"

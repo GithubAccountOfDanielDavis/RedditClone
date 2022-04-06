@@ -3,6 +3,7 @@ import { Community } from "../community/Community";
 import { User } from "../user/User";
 
 export type Post = {
+  body: string | null;
   comments?: Array<Comment>;
   community?: Community;
   createdAt: Date;
