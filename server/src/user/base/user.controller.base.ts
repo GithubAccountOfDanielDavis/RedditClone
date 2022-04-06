@@ -852,6 +852,8 @@ export class UserControllerBase {
     const results = await this.service.findPosts(params.id, {
       ...query,
       select: {
+        body: true,
+
         community: {
           select: {
             id: true,

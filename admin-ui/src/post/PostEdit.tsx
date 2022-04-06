@@ -4,11 +4,11 @@ import {
   Edit,
   SimpleForm,
   EditProps,
+  TextInput,
   ReferenceArrayInput,
   SelectArrayInput,
   ReferenceInput,
   SelectInput,
-  TextInput,
 } from "react-admin";
 
 import { CommentTitle } from "../comment/CommentTitle";
@@ -19,6 +19,7 @@ export const PostEdit = (props: EditProps): React.ReactElement => {
   return (
     <Edit {...props}>
       <SimpleForm>
+        <TextInput label="Body" multiline source="body" />
         <ReferenceArrayInput
           source="comments"
           reference="Comment"

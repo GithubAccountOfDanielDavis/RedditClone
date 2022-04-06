@@ -11,13 +11,24 @@ https://docs.amplication.com/docs/how-to/custom-code
   */
 import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
+import { IsString, IsOptional, ValidateNested, IsDate } from "class-validator";
 import { Comment } from "../../comment/base/Comment";
-import { ValidateNested, IsOptional, IsDate, IsString } from "class-validator";
 import { Type } from "class-transformer";
 import { Community } from "../../community/base/Community";
 import { User } from "../../user/base/User";
 @ObjectType()
 class Post {
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @IsOptional()
+  @Field(() => String, {
+    nullable: true,
+  })
+  body!: string | null;
+
   @ApiProperty({
     required: false,
     type: () => [Comment],

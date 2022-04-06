@@ -59,6 +59,7 @@ export const UserShow = (props: ShowProps): React.ReactElement => {
         </ReferenceManyField>
         <ReferenceManyField reference="Post" target="UserId" label="Posts">
           <Datagrid rowClick="show">
+            <TextField label="Body" source="body" />
             <ReferenceField
               label="Community"
               source="community.id"

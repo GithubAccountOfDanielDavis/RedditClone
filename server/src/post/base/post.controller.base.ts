@@ -85,6 +85,8 @@ export class PostControllerBase {
         },
       },
       select: {
+        body: true,
+
         community: {
           select: {
             id: true,
@@ -135,6 +137,8 @@ export class PostControllerBase {
     const results = await this.service.findMany({
       ...args,
       select: {
+        body: true,
+
         community: {
           select: {
             id: true,
@@ -184,6 +188,8 @@ export class PostControllerBase {
     const result = await this.service.findOne({
       where: params,
       select: {
+        body: true,
+
         community: {
           select: {
             id: true,
@@ -264,6 +270,8 @@ export class PostControllerBase {
           },
         },
         select: {
+          body: true,
+
           community: {
             select: {
               id: true,
@@ -314,6 +322,8 @@ export class PostControllerBase {
       return await this.service.delete({
         where: params,
         select: {
+          body: true,
+
           community: {
             select: {
               id: true,

@@ -4,8 +4,8 @@ import {
   Show,
   SimpleShowLayout,
   ShowProps,
-  ReferenceField,
   TextField,
+  ReferenceField,
   DateField,
   ReferenceManyField,
   Datagrid,
@@ -19,6 +19,7 @@ export const PostShow = (props: ShowProps): React.ReactElement => {
   return (
     <Show {...props}>
       <SimpleShowLayout>
+        <TextField label="Body" source="body" />
         <ReferenceField
           label="Community"
           source="community.id"
