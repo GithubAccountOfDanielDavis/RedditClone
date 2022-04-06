@@ -3,6 +3,8 @@ import { UserModule } from "./user/user.module";
 import { CommunityModule } from "./community/community.module";
 import { PostModule } from "./post/post.module";
 import { CommentModule } from "./comment/comment.module";
+import { CommentLikeModule } from "./commentLike/commentLike.module";
+import { PostLikeModule } from "./postLike/postLike.module";
 import { ACLModule } from "./auth/acl.module";
 import { AuthModule } from "./auth/auth.module";
 import { HealthModule } from "./health/health.module";
@@ -20,6 +22,8 @@ import { GraphQLModule } from "@nestjs/graphql";
     CommunityModule,
     PostModule,
     CommentModule,
+    CommentLikeModule,
+    PostLikeModule,
     ACLModule,
     AuthModule,
     HealthModule,

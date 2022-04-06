@@ -52,6 +52,24 @@ export const PostShow = (props: ShowProps): React.ReactElement => {
             <DateField source="updatedAt" label="Updated At" />
           </Datagrid>
         </ReferenceManyField>
+        <ReferenceManyField
+          reference="PostLike"
+          target="PostId"
+          label="Post Likes"
+        >
+          <Datagrid rowClick="show">
+            <DateField source="createdAt" label="Created At" />
+            <TextField label="ID" source="id" />
+            <ReferenceField label="Post" source="post.id" reference="Post">
+              <TextField source={POST_TITLE_FIELD} />
+            </ReferenceField>
+            <DateField source="updatedAt" label="Updated At" />
+            <ReferenceField label="User" source="user.id" reference="User">
+              <TextField source={USER_TITLE_FIELD} />
+            </ReferenceField>
+            <TextField label="Value" source="value" />
+          </Datagrid>
+        </ReferenceManyField>
       </SimpleShowLayout>
     </Show>
   );

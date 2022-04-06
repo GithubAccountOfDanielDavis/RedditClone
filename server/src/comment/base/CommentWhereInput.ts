@@ -14,6 +14,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import { StringFilter } from "../../util/StringFilter";
 import { Type } from "class-transformer";
 import { IsOptional, ValidateNested } from "class-validator";
+import { CommentLikeListRelationFilter } from "../../commentLike/base/CommentLikeListRelationFilter";
 import { UserWhereUniqueInput } from "../../user/base/UserWhereUniqueInput";
 import { PostWhereUniqueInput } from "../../post/base/PostWhereUniqueInput";
 @InputType()
@@ -28,6 +29,18 @@ class CommentWhereInput {
     nullable: true,
   })
   body?: StringFilter;
+
+  @ApiProperty({
+    required: false,
+    type: () => CommentLikeListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => CommentLikeListRelationFilter)
+  @IsOptional()
+  @Field(() => CommentLikeListRelationFilter, {
+    nullable: true,
+  })
+  commentLikes?: CommentLikeListRelationFilter;
 
   @ApiProperty({
     required: false,

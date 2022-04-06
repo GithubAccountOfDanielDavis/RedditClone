@@ -8,17 +8,19 @@ generator client {
 }
 
 model User {
+  commentLikes     CommentLike[]
   comments         Comment[]
-  createdAt        DateTime    @default(now())
-  id               String      @id @default(cuid())
-  moderates        Community[] @relation(name: "moderates")
-  ownedCommunities Community[] @relation(name: "ownedCommunities")
+  createdAt        DateTime      @default(now())
+  id               String        @id @default(cuid())
+  moderates        Community[]   @relation(name: "moderates")
+  ownedCommunities Community[]   @relation(name: "ownedCommunities")
   password         String
+  postLikes        PostLike[]
   posts            Post[]
   roles            String[]
-  subscriptions    Community[] @relation(name: "subscribers")
-  updatedAt        DateTime    @updatedAt
-  username         String      @unique
+  subscriptions    Community[]   @relation(name: "subscribers")
+  updatedAt        DateTime      @updatedAt
+  username         String        @unique
 }
 
 model Community {
@@ -36,23 +38,47 @@ model Community {
 model Post {
   body        String?
   comments    Comment[]
-  community   Community @relation(fields: [communityId], references: [id])
+  community   Community  @relation(fields: [communityId], references: [id])
   communityId String
-  createdAt   DateTime  @default(now())
-  creator     User      @relation(fields: [creatorId], references: [id])
+  createdAt   DateTime   @default(now())
+  creator     User       @relation(fields: [creatorId], references: [id])
   creatorId   String
-  id          String    @id @default(cuid())
+  id          String     @id @default(cuid())
+  postLikes   PostLike[]
   title       String
-  updatedAt   DateTime  @updatedAt
+  updatedAt   DateTime   @updatedAt
 }
 
 model Comment {
-  body      String
+  body         String
+  commentLikes CommentLike[]
+  createdAt    DateTime      @default(now())
+  creator      User          @relation(fields: [creatorId], references: [id])
+  creatorId    String
+  id           String        @id @default(cuid())
+  post         Post          @relation(fields: [postId], references: [id])
+  postId       String
+  updatedAt    DateTime      @updatedAt
+}
+
+model CommentLike {
+  comment   Comment  @relation(fields: [commentId], references: [id])
+  commentId String
   createdAt DateTime @default(now())
-  creator   User     @relation(fields: [creatorId], references: [id])
-  creatorId String
+  id        String   @id @default(cuid())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  value     Int
+}
+
+model PostLike {
+  createdAt DateTime @default(now())
   id        String   @id @default(cuid())
   post      Post     @relation(fields: [postId], references: [id])
   postId    String
   updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  value     Int
 }

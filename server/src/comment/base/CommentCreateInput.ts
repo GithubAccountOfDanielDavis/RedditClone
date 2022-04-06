@@ -11,9 +11,10 @@ https://docs.amplication.com/docs/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { IsString, ValidateNested } from "class-validator";
-import { UserWhereUniqueInput } from "../../user/base/UserWhereUniqueInput";
+import { IsString, ValidateNested, IsOptional } from "class-validator";
+import { CommentLikeCreateNestedManyWithoutCommentsInput } from "./CommentLikeCreateNestedManyWithoutCommentsInput";
 import { Type } from "class-transformer";
+import { UserWhereUniqueInput } from "../../user/base/UserWhereUniqueInput";
 import { PostWhereUniqueInput } from "../../post/base/PostWhereUniqueInput";
 @InputType()
 class CommentCreateInput {
@@ -24,6 +25,18 @@ class CommentCreateInput {
   @IsString()
   @Field(() => String)
   body!: string;
+
+  @ApiProperty({
+    required: false,
+    type: () => CommentLikeCreateNestedManyWithoutCommentsInput,
+  })
+  @ValidateNested()
+  @Type(() => CommentLikeCreateNestedManyWithoutCommentsInput)
+  @IsOptional()
+  @Field(() => CommentLikeCreateNestedManyWithoutCommentsInput, {
+    nullable: true,
+  })
+  commentLikes?: CommentLikeCreateNestedManyWithoutCommentsInput;
 
   @ApiProperty({
     required: true,

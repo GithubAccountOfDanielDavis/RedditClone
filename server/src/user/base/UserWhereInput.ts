@@ -11,14 +11,28 @@ https://docs.amplication.com/docs/how-to/custom-code
   */
 import { InputType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import { CommentListRelationFilter } from "../../comment/base/CommentListRelationFilter";
+import { CommentLikeListRelationFilter } from "../../commentLike/base/CommentLikeListRelationFilter";
 import { ValidateNested, IsOptional } from "class-validator";
 import { Type } from "class-transformer";
+import { CommentListRelationFilter } from "../../comment/base/CommentListRelationFilter";
 import { StringFilter } from "../../util/StringFilter";
 import { CommunityListRelationFilter } from "../../community/base/CommunityListRelationFilter";
+import { PostLikeListRelationFilter } from "../../postLike/base/PostLikeListRelationFilter";
 import { PostListRelationFilter } from "../../post/base/PostListRelationFilter";
 @InputType()
 class UserWhereInput {
+  @ApiProperty({
+    required: false,
+    type: () => CommentLikeListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => CommentLikeListRelationFilter)
+  @IsOptional()
+  @Field(() => CommentLikeListRelationFilter, {
+    nullable: true,
+  })
+  commentLikes?: CommentLikeListRelationFilter;
+
   @ApiProperty({
     required: false,
     type: () => CommentListRelationFilter,
@@ -65,6 +79,18 @@ class UserWhereInput {
     nullable: true,
   })
   ownedCommunities?: CommunityListRelationFilter;
+
+  @ApiProperty({
+    required: false,
+    type: () => PostLikeListRelationFilter,
+  })
+  @ValidateNested()
+  @Type(() => PostLikeListRelationFilter)
+  @IsOptional()
+  @Field(() => PostLikeListRelationFilter, {
+    nullable: true,
+  })
+  postLikes?: PostLikeListRelationFilter;
 
   @ApiProperty({
     required: false,
